@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Генератор аватаров на Canvas</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-paint-brush"></i> Генератор аватаров</h1>
+            <p class="subtitle">Создавайте уникальные аватары прямо в браузере</p>
+        </header>
+        
+        <main>
+            <div class="card main-card">
+                <h2><i class="fas fa-sliders"></i> Настройки аватара</h2>
+                
+                <div class="controls">
+                    <div class="form-group">
+                        <label for="seed"><i class="fas fa-key"></i> Ключевое слово:</label>
+                        <input type="text" id="seed" placeholder="Введите любое слово или имя" value="Avatar">
+                        <small class="hint">Одинаковое слово = одинаковый аватар</small>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="size"><i class="fas fa-ruler"></i> Размер:</label>
+                            <input type="range" id="size" min="50" max="400" value="200">
+                            <div class="range-value">
+                                <span id="sizeValue">200</span> пикселей
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="complexity"><i class="fas fa-shapes"></i> Сложность:</label>
+                            <input type="range" id="complexity" min="3" max="15" value="8">
+                            <div class="range-value">
+                                <span id="complexityValue">8</span> фигур
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="colorTheme"><i class="fas fa-palette"></i> Цветовая тема:</label>
+                            <select id="colorTheme">
+                                <option value="bright">Яркие цвета</option>
+                                <option value="pastel">Пастельные тона</option>
+                                <option value="monochrome">Монохром</option>
+                                <option value="nature">Природные цвета</option>
+                                <option value="random">Случайная</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="shapeType"><i class="fas fa-star"></i> Тип фигур:</label>
+                            <select id="shapeType">
+                                <option value="circles">Круги</option>
+                                <option value="squares">Квадраты</option>
+                                <option value="triangles">Треугольники</option>
+                                <option value="mixed">Смешанные</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="button-group">
+                        <button id="generateBtn" class="btn btn-primary">
+                            <i class="fas fa-magic"></i> Создать аватар
+                        </button>
+                        <button id="randomBtn" class="btn btn-secondary">
+                            <i class="fas fa-random"></i> Случайный
+                        </button>
+                        <button id="saveBtn" class="btn btn-success">
+                            <i class="fas fa-download"></i> Сохранить
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="result-section">
+                    <h3><i class="fas fa-image"></i> Ваш аватар</h3>
+                    <div class="avatar-display">
+                        <div class="canvas-container">
+                            <canvas id="avatarCanvas" width="400" height="400"></canvas>
+                            <div class="canvas-controls">
+                                <button id="zoomInBtn" class="btn-canvas"><i class="fas fa-search-plus"></i></button>
+                                <button id="zoomOutBtn" class="btn-canvas"><i class="fas fa-search-minus"></i></button>
+                                <button id="rotateBtn" class="btn-canvas"><i class="fas fa-redo"></i></button>
+                                <button id="resetBtn" class="btn-canvas"><i class="fas fa-undo"></i></button>
+                            </div>
+                        </div>
+                        
+                        <div class="avatar-info">
+                            <div class="info-title">Информация:</div>
+                            <div class="info-grid">
+                                <div class="info-item">
+                                    <span class="info-label"><i class="fas fa-hashtag"></i> Хэш:</span>
+                                    <span id="hashValue" class="info-value">000000</span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-label"><i class="fas fa-shapes"></i> Фигур:</span>
+                                    <span id="shapesCount" class="info-value">8</span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-label"><i class="fas fa-ruler"></i> Размер:</span>
+                                    <span id="canvasSize" class="info-value">400x400</span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-label"><i class="fas fa-palette"></i> Цвета:</span>
+                                    <div id="colorsPreview" class="colors-preview">
+                                        <span class="color-dot" style="background-color: #FF6B6B;"></span>
+                                        <span class="color-dot" style="background-color: #4ECDC4;"></span>
+                                        <span class="color-dot" style="background-color: #96CEB4;"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="share-section">
+                                <div class="share-title">Поделиться:</div>
+                                <div class="share-buttons">
+                                    <button id="copyImageBtn" class="btn btn-share">
+                                        <i class="fas fa-copy"></i> Копировать
+                                    </button>
+                                    <button id="shareLinkBtn" class="btn btn-share">
+                                        <i class="fas fa-share-alt"></i> Поделиться
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card gallery-card">
+                <div class="gallery-header">
+                    <h2><i class="fas fa-history"></i> История аватаров</h2>
+                    <div class="gallery-controls">
+                        <button id="clearHistoryBtn" class="btn btn-small">
+                            <i class="fas fa-trash"></i> Очистить
+                        </button>
+                        <button id="saveAllBtn" class="btn btn-small">
+                            <i class="fas fa-download"></i> Сохранить все
+                        </button>
+                    </div>
+                </div>
+                
+                <div id="galleryContainer" class="gallery-container">
+                    <div class="empty-gallery">
+                        <i class="fas fa-images"></i>
+                        <p>Созданные аватары появятся здесь</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card info-card">
+                <h2><i class="fas fa-lightbulb"></i> Как работает генератор</h2>
+                <div class="features">
+                    <div class="feature">
+                        <div class="feature-icon">
+                            <i class="fas fa-bolt"></i>
+                        </div>
+                        <div class="feature-content">
+                            <h3>Мгновенная генерация</h3>
+                            <p>Аватар создается прямо в вашем браузере с использованием технологии Canvas. Никаких запросов к серверу!</p>
+                        </div>
+                    </div>
+                    
+                    <div class="feature">
+                        <div class="feature-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <div class="feature-content">
+                            <h3>Детерминированный алгоритм</h3>
+                            <p>Одно и то же ключевое слово всегда создает одинаковый аватар благодаря специальному алгоритму хэширования.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="feature">
+                        <div class="feature-icon">
+                            <i class="fas fa-paint-brush"></i>
+                        </div>
+                        <div class="feature-content">
+                            <h3>Гибкая настройка</h3>
+                            <p>Изменяйте размер, сложность, цветовую палитру и тип фигур для создания идеального аватара.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="feature">
+                        <div class="feature-icon">
+                            <i class="fas fa-camera"></i>
+                        </div>
+                        <div class="feature-content">
+                            <h3>Сохраняйте результат</h3>
+                            <p>Скачивайте аватар в формате PNG или копируйте прямо в буфер обмена одним кликом.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        
+        <footer>
+            <div class="footer-content">
+                <p class="footer-title">Canvas Генератор Аватаров</p>
+                <p class="footer-subtitle">Express.js • Canvas API • Детерминированная генерация</p>
+                <p class="footer-credits">Контрольная работа №5 • Технологии индустриального программирования • Вариант 25</p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Модальное окно для копирования -->
+    <div id="copyModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-check-circle"></i> Успешно!</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Аватар скопирован в буфер обмена.</p>
+                <p>Теперь вы можете вставить его в любой графический редактор или документ.</p>
+            </div>
+            <div class="modal-actions">
+                <button id="modalOkBtn" class="btn btn-primary">OK</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="avatar-generator.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
