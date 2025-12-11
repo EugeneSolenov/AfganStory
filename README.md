@@ -30,7 +30,8 @@
 
 
 ### Настройки генерации
-![Настройки генерации](screenshots/settings.png)
+<img width="1916" height="1086" alt="image" src="https://github.com/user-attachments/assets/adf36fa0-6ce6-4462-95d9-d3b392438c27" />
+
 
 ### Галерея аватаров
 ![Галерея аватаров](screenshots/gallery.png)
