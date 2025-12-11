@@ -26,8 +26,8 @@
 <summary>Показать скриншоты</summary>
 
 ### Главная страница
-![Главная страница](<img width="1899" height="1134" alt="image" src="https://github.com/user-attachments/assets/01e9b193-3785-4673-99b5-cfaff9aa6917" />
-)
+<img width="1896" height="1079" alt="image" src="https://github.com/user-attachments/assets/e810296c-c28c-4c4c-9b25-732028006f51" />
+
 
 ### Настройки генерации
 ![Настройки генерации](screenshots/settings.png)
