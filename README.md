@@ -34,7 +34,8 @@
 
 
 ### Галерея аватаров
-![Галерея аватаров](screenshots/gallery.png)
+<img width="1919" height="1081" alt="image" src="https://github.com/user-attachments/assets/adfcccbf-fccc-4acf-ba2d-b5354f09a370" />
+
 
 </details>
 
